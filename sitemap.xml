@@ -3,33 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://example.org/posts/2019/03/airflow-on-amazonlinux/</loc>
+    <loc>https://owenscode.github.io/owenscode/posts/2019/03/airflow-on-amazonlinux/</loc>
     <lastmod>2019-03-16T07:36:56-04:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/posts/2019/03/static-site-generation/</loc>
+    <loc>https://owenscode.github.io/owenscode/posts/2019/03/static-site-generation/</loc>
     <lastmod>2019-03-12T21:33:39-04:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/categories/</loc>
+    <loc>https://owenscode.github.io/owenscode/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/posts/</loc>
+    <loc>https://owenscode.github.io/owenscode/posts/</loc>
     <lastmod>2019-03-16T07:36:56-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://owenscode.github.io/owenscode/tags/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/</loc>
+    <loc>https://owenscode.github.io/owenscode/</loc>
     <lastmod>2019-03-16T07:36:56-04:00</lastmod>
     <priority>0</priority>
   </url>
