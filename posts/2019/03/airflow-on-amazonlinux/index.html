@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>What I Learned Today  | Airflow on amazonlinux</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.54.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Airflow on amazonlinux" />
+<meta property="og:description" content="I spent some time yesterday installing Apache Airflow in a Docker container, using an image based on the amazonlinux image provided by Amazon. The end goal is to run it in an EC2 instance, but while I was waiting for the ops team to create one for me, I decided to experiment with setting it up in Docker. Using the amazonlinux image should give me a similar environment to what I can expect on the EC2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/2019/03/airflow-on-amazonlinux/" />
+<meta property="article:published_time" content="2019-03-16T07:36:56-04:00"/>
+<meta property="article:modified_time" content="2019-03-16T07:36:56-04:00"/>
+
+<meta itemprop="name" content="Airflow on amazonlinux">
+<meta itemprop="description" content="I spent some time yesterday installing Apache Airflow in a Docker container, using an image based on the amazonlinux image provided by Amazon. The end goal is to run it in an EC2 instance, but while I was waiting for the ops team to create one for me, I decided to experiment with setting it up in Docker. Using the amazonlinux image should give me a similar environment to what I can expect on the EC2.">
+
+
+<meta itemprop="datePublished" content="2019-03-16T07:36:56-04:00" />
+<meta itemprop="dateModified" content="2019-03-16T07:36:56-04:00" />
+<meta itemprop="wordCount" content="420">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Airflow on amazonlinux"/>
+<meta name="twitter:description" content="I spent some time yesterday installing Apache Airflow in a Docker container, using an image based on the amazonlinux image provided by Amazon. The end goal is to run it in an EC2 instance, but while I was waiting for the ops team to create one for me, I decided to experiment with setting it up in Docker. Using the amazonlinux image should give me a similar environment to what I can expect on the EC2."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="http://example.org/" class="f3 fw2 hover-white no-underline white-90 dib">
+      What I Learned Today
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Airflow on amazonlinux</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-03-16T07:36:56-04:00">March 16, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>I spent some time yesterday installing <a href="https://airflow.apache.org/">Apache
+Airflow</a> in a Docker container, using an image
+based on the amazonlinux image provided by Amazon. The end goal is to run it in
+an <a href="https://aws.amazon.com/ec2/">EC2</a> instance, but while I was waiting for the
+ops team to create one for me, I decided to experiment with setting it up in
+Docker. Using the amazonlinux image should give me a similar environment to
+what I can expect on the EC2.</p>
+
+<p>As is often the case, what I expected to be fairly trivial turned out to be
+quite a headache. Airflow is a Python package that should be fairly simple to
+install, according to the documentation. There are a few operating system
+dependencies, which were easily installed via the yum package manager, and then
+I expectantly ran the command to initialize the SQLite database.</p>
+
+<pre><code>$ airflow initdb
+</code></pre>
+
+<p>Boom! Invalid syntax error when initializing the Python package
+<a href="https://github.com/jd/tenacity">tenacity</a>. Apparently something changed in
+Python 3.7 that resulted in some kind of naming conflict in tenacity (I didn&rsquo;t
+dig into the details). It&rsquo;s fixed in more recent versions, but Airflow depends
+on the older broken versions. A <a href="https://github.com/apache/airflow/pull/3723">github
+issue</a> has been opened for Airflow
+to use a more recent version and the merge is imminent, but the current release
+(1.10.2) does not have the fix yet. Bah! Next step was to try using Python 3.6,
+which is known to work. I&rsquo;ve used Python 3.6 before in this kind of Docker
+container, when compiling code to run in AWS Lambda, which provides Python 3.6
+the last time I checked.</p>
+
+<p>Python 3.6 can be installed via the <code>amazon-linux-extras</code> command line utility,
+although there are warnings about the Python 3.6 &ldquo;topic&rdquo; being unsupported from
+a few months ago.  Easy enough; done. Retry the steps for installing Airflow.
+Same problem again. <strong>What?!</strong></p>
+
+<p>After some digging, I realized that one of the required operating system
+packages for building some of the extra Airflow packages I wanted is
+<code>python-devel</code>, which is not available via amazon-linux-extras so I had
+installed the default Python 3.7 version, which resulted in Python itself being
+upgraded to 3.7 <strong>Aah!</strong></p>
+
+<p>In the end, I managed to get it all working by downloading Airflow from the
+<a href="https://github.com/apache/airflow/tree/v1-10-stable">1.10-stable branch</a> on
+github and installing from there.</p>
+
+<pre><code>$ curl -o airflow-1.10.zip https://codeload.github.com/apache/airflow/zip/v1-10-stable
+$ unzip -q airflow-1.10.zip
+$ cd airflow-1-10-stable/
+$ pip install .[crypto,devel,devel_hadoop,password,postgres,s3]
+</code></pre>
+
+<p>Success! Airflow installed, SQLite database initialized, and Airflow is
+running.  Now just to wait for 1.10.3 to be released and I should be able to
+get back on an official release.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy; 2019 What I Learned Today
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>What I Learned Today</title>
+    <link>http://example.org/</link>
+    <description>Recent content on What I Learned Today</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Mar 2019 07:36:56 -0400</lastBuildDate>
+    
+	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Airflow on amazonlinux</title>
+      <link>http://example.org/posts/2019/03/airflow-on-amazonlinux/</link>
+      <pubDate>Sat, 16 Mar 2019 07:36:56 -0400</pubDate>
+      
+      <guid>http://example.org/posts/2019/03/airflow-on-amazonlinux/</guid>
+      <description>I spent some time yesterday installing Apache Airflow in a Docker container, using an image based on the amazonlinux image provided by Amazon. The end goal is to run it in an EC2 instance, but while I was waiting for the ops team to create one for me, I decided to experiment with setting it up in Docker. Using the amazonlinux image should give me a similar environment to what I can expect on the EC2.</description>
+    </item>
+    
+    <item>
+      <title>Static Site Generators</title>
+      <link>http://example.org/posts/2019/03/static-site-generation/</link>
+      <pubDate>Tue, 12 Mar 2019 21:33:39 -0400</pubDate>
+      
+      <guid>http://example.org/posts/2019/03/static-site-generation/</guid>
+      <description>Today I learned that there are a lot of static site generators out there. It&amp;rsquo;s apparently something that has gained a lot of interest. I&amp;rsquo;m mainly interested in generating my content from Markdown files, so at least that gave me somewhere to start when narrowing down the list to try. I&amp;rsquo;m interested in static site generation after my experience with a Movable Type blog I had at some point, which could publish static html content and as a result loaded really fast.</description>
+    </item>
+    
+  </channel>
+</rss>

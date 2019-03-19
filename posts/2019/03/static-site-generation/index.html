@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>What I Learned Today  | Static Site Generators</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.54.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Static Site Generators" />
+<meta property="og:description" content="Today I learned that there are a lot of static site generators out there. It&rsquo;s apparently something that has gained a lot of interest. I&rsquo;m mainly interested in generating my content from Markdown files, so at least that gave me somewhere to start when narrowing down the list to try. I&rsquo;m interested in static site generation after my experience with a Movable Type blog I had at some point, which could publish static html content and as a result loaded really fast." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/2019/03/static-site-generation/" />
+<meta property="article:published_time" content="2019-03-12T21:33:39-04:00"/>
+<meta property="article:modified_time" content="2019-03-12T21:33:39-04:00"/>
+
+<meta itemprop="name" content="Static Site Generators">
+<meta itemprop="description" content="Today I learned that there are a lot of static site generators out there. It&rsquo;s apparently something that has gained a lot of interest. I&rsquo;m mainly interested in generating my content from Markdown files, so at least that gave me somewhere to start when narrowing down the list to try. I&rsquo;m interested in static site generation after my experience with a Movable Type blog I had at some point, which could publish static html content and as a result loaded really fast.">
+
+
+<meta itemprop="datePublished" content="2019-03-12T21:33:39-04:00" />
+<meta itemprop="dateModified" content="2019-03-12T21:33:39-04:00" />
+<meta itemprop="wordCount" content="587">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Static Site Generators"/>
+<meta name="twitter:description" content="Today I learned that there are a lot of static site generators out there. It&rsquo;s apparently something that has gained a lot of interest. I&rsquo;m mainly interested in generating my content from Markdown files, so at least that gave me somewhere to start when narrowing down the list to try. I&rsquo;m interested in static site generation after my experience with a Movable Type blog I had at some point, which could publish static html content and as a result loaded really fast."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="http://example.org/" class="f3 fw2 hover-white no-underline white-90 dib">
+      What I Learned Today
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Static Site Generators</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-03-12T21:33:39-04:00">March 12, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>Today I learned that there are a lot of static site generators out there. It&rsquo;s
+apparently something that has gained a lot of interest. I&rsquo;m mainly interested
+in generating my content from
+<a href="https://daringfireball.net/projects/markdown/">Markdown</a> files, so at least
+that gave me somewhere to start when narrowing down the list to try. I&rsquo;m
+interested in static site generation after my experience with a <a href="https://www.movabletype.org/">Movable
+Type</a> blog I had at some point, which could
+publish static html content and as a result loaded really fast.</p>
+
+<p>My reason for wanting Markdown support is that I want something simple that
+allows me to just focus on text and not the html. I&rsquo;m a programmer and I used
+to do a lot of web development, but that&rsquo;s not really what this blog is about.
+I want to write text, not code, unless I&rsquo;m writing about code, which Markdown
+should give me good support for.</p>
+
+<p>I ended up starting out with <a href="https://gohugo.io/">Hugo</a>, but it looks like it
+should be relatively easy to move to something else if I want to, mainly
+because of the content being in Markdown, and because many of these tools use
+similar directory structures for the basic content.</p>
+
+<p>Reasons for trying Hugo:</p>
+
+<ul>
+<li>It&rsquo;s Open Source with an Apache 2.0 license</li>
+<li>It&rsquo;s easy to install because it&rsquo;s written in <a href="https://golang.org/">Go</a> and I
+can install it via <a href="https://brew.sh/">Homebrew</a> without having to install any
+other dependencies like Ruby or Node. I have a habit of getting things like
+that setup nicely with rvm or nvm and then forgetting what I used when I come
+back to them a few months later. Hopefully I won&rsquo;t have that problem with Hugo.</li>
+<li>It looks reasonably mature and well supported with an active community, and
+has some nice features like draft posts.</li>
+<li>Nice choice of <a href="https://themes.gohugo.io/">themes</a> and I wanted to at least
+start out with a default theme so I can get up and writing pretty quickly.</li>
+</ul>
+
+<p>Other options I looked at:</p>
+
+<ul>
+<li><a href="http://docpad.org/">DocPad</a> - looks interesting and could be the next one I
+try, if I try anything else. Not as well known as some of the other
+contenders, but still seems active on Github. Looks like I would need to do
+more work on the theming though. Also needs Node, which adds just a little more
+local complexity.</li>
+<li><a href="https://jekyllrb.com/">Jekyll</a> - another top contender that looks slick and
+is well supported. Used by Github for generating Github pages. Needs Ruby.</li>
+<li><a href="https://ghost.org/">Ghost</a> - themes look slick, but maybe a little
+heavyweight for something I want to just self-host on my laptop when creating
+content. Another one that needs Node.</li>
+<li><a href="https://postach.io/">Postach.io</a> - an interesting idea that turns an
+Evernote notebook into a blog or website. Appealing in that I could start a
+post from almost anywhere, like my iPad or work computer (if I have an idea to
+start on at work), but I&rsquo;m really hesitant to start this on a closed platform
+like Evernote, and sometimes I have disagreements on formatting with Evernote, with
+no real way to get to the underlying source.</li>
+<li><a href="https://middlemanapp.com/">Middleman</a> - I didn&rsquo;t get around to looking too
+closely at this one, but it&rsquo;s here as an option if I ever decide to try
+something else out. Another Ruby based tool.</li>
+</ul>
+
+<p>I have to admit that I didn&rsquo;t look too closely at most of these. This is just a
+side interest for me, not a work project where I have to justify my choices and
+make sure I&rsquo;ve covered all my bases.</p>
+
+<p>That&rsquo;s all for my first post. Hopefully there will be many more.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy; 2019 What I Learned Today
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
