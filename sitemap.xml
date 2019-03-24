@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://owenscode.github.io/posts/2019/03/running-airflow-with-systemd/</loc>
+    <lastmod>2019-03-24T14:40:05-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://owenscode.github.io/posts/2019/03/airflow-on-amazonlinux/</loc>
     <lastmod>2019-03-16T07:36:56-04:00</lastmod>
   </url>
@@ -19,7 +24,7 @@
   
   <url>
     <loc>https://owenscode.github.io/posts/</loc>
-    <lastmod>2019-03-16T07:36:56-04:00</lastmod>
+    <lastmod>2019-03-24T14:40:05-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -30,7 +35,7 @@
   
   <url>
     <loc>https://owenscode.github.io/</loc>
-    <lastmod>2019-03-16T07:36:56-04:00</lastmod>
+    <lastmod>2019-03-24T14:40:05-04:00</lastmod>
     <priority>0</priority>
   </url>
   

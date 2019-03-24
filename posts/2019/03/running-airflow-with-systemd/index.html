@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>What I Learned Today  | Running Airflow With Systemd</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.54.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Running Airflow With Systemd" />
+<meta property="og:description" content="The Linux system on the EC2 I&rsquo;m using is similar to CentOS and uses systemd for managing system services. If you want to run Airflow as a system service so that it can be started automatically and managed by the operation system, integrating it with systemd is a good option and is not difficult to do.
+The Airflow project documentation provides the basic information needed for running Airflow with systemd, which makes setup relatively easy, but I felt that the instructions could be a little clearer and I needed to tweak a few things to get it working for my installation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://owenscode.github.io/posts/2019/03/running-airflow-with-systemd/" />
+<meta property="article:published_time" content="2019-03-24T14:40:05-04:00"/>
+<meta property="article:modified_time" content="2019-03-24T14:40:05-04:00"/>
+
+<meta itemprop="name" content="Running Airflow With Systemd">
+<meta itemprop="description" content="The Linux system on the EC2 I&rsquo;m using is similar to CentOS and uses systemd for managing system services. If you want to run Airflow as a system service so that it can be started automatically and managed by the operation system, integrating it with systemd is a good option and is not difficult to do.
+The Airflow project documentation provides the basic information needed for running Airflow with systemd, which makes setup relatively easy, but I felt that the instructions could be a little clearer and I needed to tweak a few things to get it working for my installation.">
+
+
+<meta itemprop="datePublished" content="2019-03-24T14:40:05-04:00" />
+<meta itemprop="dateModified" content="2019-03-24T14:40:05-04:00" />
+<meta itemprop="wordCount" content="490">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Running Airflow With Systemd"/>
+<meta name="twitter:description" content="The Linux system on the EC2 I&rsquo;m using is similar to CentOS and uses systemd for managing system services. If you want to run Airflow as a system service so that it can be started automatically and managed by the operation system, integrating it with systemd is a good option and is not difficult to do.
+The Airflow project documentation provides the basic information needed for running Airflow with systemd, which makes setup relatively easy, but I felt that the instructions could be a little clearer and I needed to tweak a few things to get it working for my installation."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://owenscode.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      What I Learned Today
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Running Airflow With Systemd</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-03-24T14:40:05-04:00">March 24, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>The Linux system on the EC2 I&rsquo;m using is similar to CentOS and uses systemd for
+managing system services.  If you want to run Airflow as a system service so
+that it can be started automatically and managed by the operation system,
+integrating it with systemd is a good option and is not difficult to do.</p>
+
+<p>The Airflow project documentation provides the basic information needed for
+<a href="https://airflow.apache.org/howto/run-with-systemd.html">running Airflow with
+systemd</a>, which makes
+setup relatively easy, but I felt that the instructions could be a little
+clearer and I needed to tweak a few things to get it working for my
+installation. The files you need are provided in the <a href="https://github.com/apache/airflow/tree/master/scripts/systemd">scripts
+directory</a> of
+the Airflow source code.</p>
+
+<p>This is the overall layout of the files that I end up using, with more details
+below.</p>
+
+<pre><code>    .
+    ├── etc
+    │   └── sysconfig
+    │       └── airflow
+    ├── run
+    │   └── airflow
+    │       └── webserver.pid
+    └── usr
+        └── lib
+            ├── systemd
+            │   └── system
+            │       ├── airflow-scheduler.service
+            │       └── airflow-webserver.service
+            └── tmpfiles.d
+                └── airflow.conf
+</code></pre>
+
+<p><strong>/etc/sysconfig/airflow</strong></p>
+
+<p>Based on the <code>airflow</code> file from the scripts directory. I modified it with the
+non-default location of <code>AIRFLOW_HOME</code>, the path to my <code>airflow.cfg</code> file, and
+updated the path to include the airflow installation&rsquo;s bin directory. Note that
+the system user is <code>airflow-user</code> and Airflow is installed in the user Python
+package folders.</p>
+
+<pre><code>AIRFLOW_HOME=/work/airflow
+AIRFLOW_CONFIG=/work/airflow/airflow.cfg
+PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/airflow-user/.local/bin:/home/airflow-user/bin
+</code></pre>
+
+<p>Also note that the
+<a href="https://airflow.apache.org/howto/run-with-systemd.html">documentation</a> is out
+of date when it mentions that you need to specify <code>SCHEDULER_RUNS</code>.</p>
+
+<p><strong>/usr/lib/tmpfiles.d/airflow.conf</strong></p>
+
+<p>Based on the <code>airflow.conf</code> file from the scripts directory. This controls the
+owner and permissions of the process id files created under <code>/run/airflow/</code>. I
+just changed the user from the default <code>airflow</code> to <code>airflow-user</code>.</p>
+
+<p><strong>/run/airflow/</strong></p>
+
+<p>I manually created this folder, belonging to my <code>airflow-user</code> user. I thought
+this would get created automatically on service initialization or startup, but
+it wasn&rsquo;t.</p>
+
+<p><strong>/usr/lib/systemd/system/airflow-scheduler.service</strong></p>
+
+<p>Based on <code>airflow-scheduler.service</code> from the scripts directory. I made the
+following changes to match my configuration. My initial basic setup only
+depends on the network and PostgreSQL. The operating system user and group were
+changed, and I included the full path to the Airflow executable to start the
+scheduler.</p>
+
+<pre><code>After=network.target postgresql.service
+Wants=postgresql.service
+User=airflow-user
+Group=airflow-user
+ExecStart=/home/airflow-user/.local/bin/airflow scheduler
+</code></pre>
+
+<p><strong>/usr/lib/systemd/system/airflow-webserver.service</strong></p>
+
+<p>Similar to the scheduler service, based on <code>airflow-webserver.service</code> from the
+scripts directory.  Note the path to the pid file.</p>
+
+<pre><code>After=network.target postgresql.service
+Wants=postgresql.service
+User=airflow-user
+Group=airflow-user
+ExecStart=/home/airflow-user/.local/bin/airflow webserver --pid /run/airflow/webserver.pid
+</code></pre>
+
+<p>And that&rsquo;s it for the configuration. Nothing too complicated, but hopefully
+saves someone a little time figuring things out. It took me a few trial runs to
+get it working properly. I haven&rsquo;t installed the airflow-worker service, but I
+imagine it&rsquo;s similar.</p>
+
+<p>The last step is to enable and start the services, and check that they&rsquo;re running correctly.</p>
+
+<pre><code>$ systemctl enable airflow-scheduler
+$ systemctl start airflow-scheduler
+$ systemctl enable airflow-webserver
+$ systemctl start airflow-webserver
+</code></pre>
+
+<p>You can check the status of the services with <code>systemctl status &lt;service&gt;</code>. I
+used the system log in <code>var/log/messages</code> to troubleshoot when it wasn&rsquo;t
+working properly.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://owenscode.github.io/" >
+    &copy; 2019 What I Learned Today
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

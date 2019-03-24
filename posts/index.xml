@@ -6,10 +6,20 @@
     <description>Recent content in Posts on What I Learned Today</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 Mar 2019 07:36:56 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 24 Mar 2019 14:40:05 -0400</lastBuildDate>
     
 	<atom:link href="https://owenscode.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Running Airflow With Systemd</title>
+      <link>https://owenscode.github.io/posts/2019/03/running-airflow-with-systemd/</link>
+      <pubDate>Sun, 24 Mar 2019 14:40:05 -0400</pubDate>
+      
+      <guid>https://owenscode.github.io/posts/2019/03/running-airflow-with-systemd/</guid>
+      <description>The Linux system on the EC2 I&amp;rsquo;m using is similar to CentOS and uses systemd for managing system services. If you want to run Airflow as a system service so that it can be started automatically and managed by the operation system, integrating it with systemd is a good option and is not difficult to do.
+The Airflow project documentation provides the basic information needed for running Airflow with systemd, which makes setup relatively easy, but I felt that the instructions could be a little clearer and I needed to tweak a few things to get it working for my installation.</description>
+    </item>
     
     <item>
       <title>Airflow on amazonlinux</title>
