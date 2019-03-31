@@ -6,10 +6,19 @@
     <description>Recent content on What I Learned Today</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Mar 2019 14:40:05 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 30 Mar 2019 14:54:31 -0400</lastBuildDate>
     
 	<atom:link href="https://owenscode.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Oysters</title>
+      <link>https://owenscode.github.io/posts/2019/03/oysters/</link>
+      <pubDate>Sat, 30 Mar 2019 14:54:31 -0400</pubDate>
+      
+      <guid>https://owenscode.github.io/posts/2019/03/oysters/</guid>
+      <description>I chaperoned a school field trip to an aquarium this week, and one of the things we learned is that oysters filter the water they live in. Full grown oysters can actually filter up to 50 gallons per day. That is pretty amazing for such a small creature. In addition to the nutrients they consume in the form of microscopic species, they also remove algae, dirt and some types of pollution from the water.</description>
+    </item>
     
     <item>
       <title>Running Airflow With Systemd</title>
