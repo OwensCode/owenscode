@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>What I Learned Today  | Upgrading Airflow to 1.10.3</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Upgrading Airflow to 1.10.3" />
+<meta property="og:description" content="Last month I described the challenges posed by installing Airflow on Amazon Linux, where I ended up installing from the 1.10 stable branch instead of the latest release. The Airflow team released 1.10.3 on April 10th and I decided to upgrade this week as I don&rsquo;t like that we were working off a snapshot of a branch instead of an official released version. The upgrade went reasonably smoothly; the main issue I got stuck on for some time was of my own making, but there was a problem with the SlackWebHook that I had to work around." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://owenscode.github.io/posts/2019/04/upgrading-airflow/" />
+<meta property="article:published_time" content="2019-04-19T17:16:15-04:00"/>
+<meta property="article:modified_time" content="2019-04-19T17:16:15-04:00"/>
+
+<meta itemprop="name" content="Upgrading Airflow to 1.10.3">
+<meta itemprop="description" content="Last month I described the challenges posed by installing Airflow on Amazon Linux, where I ended up installing from the 1.10 stable branch instead of the latest release. The Airflow team released 1.10.3 on April 10th and I decided to upgrade this week as I don&rsquo;t like that we were working off a snapshot of a branch instead of an official released version. The upgrade went reasonably smoothly; the main issue I got stuck on for some time was of my own making, but there was a problem with the SlackWebHook that I had to work around.">
+
+
+<meta itemprop="datePublished" content="2019-04-19T17:16:15-04:00" />
+<meta itemprop="dateModified" content="2019-04-19T17:16:15-04:00" />
+<meta itemprop="wordCount" content="717">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Upgrading Airflow to 1.10.3"/>
+<meta name="twitter:description" content="Last month I described the challenges posed by installing Airflow on Amazon Linux, where I ended up installing from the 1.10 stable branch instead of the latest release. The Airflow team released 1.10.3 on April 10th and I decided to upgrade this week as I don&rsquo;t like that we were working off a snapshot of a branch instead of an official released version. The upgrade went reasonably smoothly; the main issue I got stuck on for some time was of my own making, but there was a problem with the SlackWebHook that I had to work around."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://owenscode.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      What I Learned Today
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Upgrading Airflow to 1.10.3</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-04-19T17:16:15-04:00">April 19, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>Last month <a href="https://owenscode.github.io/posts/2019/03/airflow-on-amazonlinux/">I described</a>
+the challenges posed by installing Airflow on Amazon Linux, where I ended up
+installing from the 1.10 stable branch instead of the latest release. The
+Airflow team released 1.10.3 on April 10th and I decided to upgrade this week
+as I don&rsquo;t like that we were working off a snapshot of a branch instead of an
+official released version. The upgrade went reasonably smoothly; the main issue
+I got stuck on for some time was of my own making, but there <em>was</em> a problem
+with the SlackWebHook that I had to work around.</p>
+
+<p>Below are the steps I went through to upgrade. This server is part of a POC and
+I recommend being a lot more cautious on a production system than I was. I
+tested out a few things beforehand on a Docker container, but it really isn&rsquo;t
+the same as the real system, especially as the Docker installation was using
+the default <a href="https://sqlite.org/">SQLite</a> database as a metastore, compared to
+the live system which is using <a href="https://www.postgresql.org/">PostgreSQL</a>, and I
+also didn&rsquo;t configure any of the connections, variables or have any of the real
+DAGS setup.  It was basically just a dry-run of upgrading from 1.10.2 on the
+1.10 stable branch to 1.10.3, which doesn&rsquo;t really prove a lot, other than that
+it will start.  I recommend <em>at least</em> going through the upgrade on a
+development server before trying anything in production.</p>
+
+<ol>
+<li><p>Stop the airflow-webserver and airflow-scheduler processes.</p></li>
+
+<li><p>Backup the postgres database. I used both of the following backup methods
+but you could use either, depending on whether you just want to backup the
+airflow database (using pg_dump) or the whole postgres cluster (using
+pg_dumpall). See the <a href="https://www.postgresql.org/docs/9.1/backup-dump.html">postgres
+documentation</a> for more
+details on the differences and which to choose.</p>
+
+<pre><code>$ sudo -u postgres pg_dump airflow &gt; backup-airflow.txt
+$ sudo -u postgres pg_dumpall &gt; backup-postgres.txt
+</code></pre></li>
+
+<li><p>Backup the current Airflow code. I actually didn&rsquo;t think of this until after
+I upgraded, but it&rsquo;s a really good idea if there&rsquo;s any chance you want to be
+able to rollback, and especially if you aren&rsquo;t running on a properly released
+version (<em>ahem</em>).  This most likely involves making a copy of the <code>~/.local</code>
+directory or making a copy of a virtual environment (or maybe just switching to
+a new virtual environment and installing from scratch rather than upgrading).</p></li>
+
+<li><p>Upgrade the Airflow code and dependencies.</p>
+
+<pre><code>$ pip install --upgrade apache-airflow[crypto,devel,\
+  devel_hadoop,password,postgres,s3,slack,ssh]==1.10.3 --user
+</code></pre></li>
+
+<li><p>Update the configuration. These are relevant items extracted from the official
+<a href="https://github.com/apache/airflow/blob/master/UPDATING.md#airflow-1103">upgrade notes</a>.
+<strong>Note</strong> that the Airflow installation I&rsquo;m dealing with is very simple
+and you may have additional items to check, so make sure to read through
+all the notes.</p>
+
+<ul>
+<li><p>Remove &ldquo;airflow_home&rdquo; from airflow.cfg. This setting has been deprecated
+and Airflow will now only use the environment variable &ldquo;AIRFLOW_HOME&rdquo; to
+determine where the Airflow home directory is located. Previously it could
+get confusing if you had &ldquo;airflow_home&rdquo; pointing to a different location
+to &ldquo;AIRFLOW_HOME&rdquo;, so this is a good improvement to simplify the
+configuration and avoid confusion.</p></li>
+
+<li><p>Add the setting &ldquo;dag_discovery_safe_mode&rdquo; to airflow.cfg and set it to
+&ldquo;True&rdquo;. This isn&rsquo;t strictly required because it&rsquo;s a new setting that is
+being defaulted to &ldquo;True&rdquo; for backwards compatibility, but the upgrade notes
+don&rsquo;t mention whether that will always be the case, so I think it&rsquo;s safer to
+set it now in case it changes in a future release, and so it&rsquo;s documented in
+the configuration. When this is &ldquo;True&rdquo;, Airflow only checks files for DAG
+objects if they contain the strings &ldquo;airflow&rdquo; and &ldquo;DAG&rdquo;.</p></li>
+</ul></li>
+
+<li><p>Disable the example DAGs. When I originally installed Airflow it seemed that
+I needed to actually remove the files in the example_dags directory to avoid
+having them load, rather than just setting &ldquo;load_examples&rdquo; to &ldquo;False&rdquo; in
+airflow.cfg. I didn&rsquo;t experiment rigorously with this, so maybe I was mistaken.
+To be safe, I moved the files in the following locations into a backup
+directory to ensure they would not be loaded.</p>
+
+<ul>
+<li>~/.local/lib/python3.7/site-packages/airflow/example_dags</li>
+<li>~/.local/lib/python3.7/site-packages/airflow/contrib/example_dags</li>
+</ul></li>
+
+<li><p>Start the airflow-webserver and airflow-scheduler processes.</p></li>
+</ol>
+
+<p>Hopefully that will leave you with a working upgraded Airflow server, but
+you&rsquo;ll have to perform some testing to know for sure. As I mentioned near the
+beginning, I had some trouble with the updated SlackWebHook, but I will leave
+it for another post to describe the issue and how I worked around it.</p>
+
+<p>Good luck!</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://owenscode.github.io/" >
+    &copy; 2019 What I Learned Today
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

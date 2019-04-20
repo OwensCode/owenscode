@@ -9,7 +9,7 @@
     <meta name="MobileOptimized" content="320">
 
     <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.55.0" />
     
     
       <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://owenscode.github.io/" />
 
-<meta property="og:updated_time" content="2019-04-08T21:01:52-04:00"/>
+<meta property="og:updated_time" content="2019-04-19T17:16:15-04:00"/>
 
 <meta itemprop="name" content="What I Learned Today">
 <meta itemprop="description" content="">
@@ -124,6 +124,30 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/2019/04/upgrading-airflow/" class="color-inherit dim link">
+            Upgrading Airflow to 1.10.3
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          Last month I described the challenges posed by installing Airflow on Amazon Linux, where I ended up installing from the 1.10 stable branch instead of the latest release. The Airflow team released 1.10.3 on April 10th and I decided to upgrade this week as I don&rsquo;t like that we were working off a snapshot of a branch instead of an official released version. The upgrade went reasonably smoothly; the main issue I got stuck on for some time was of my own making, but there was a problem with the SlackWebHook that I had to work around.
+        </div>
+          <a href="/posts/2019/04/upgrading-airflow/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="relative w-100 mb4">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
+    <div class="flex flex-column flex-row-ns">
+      
+      <div class="blah w-100">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
           <a href="/posts/2019/04/interviews-are-tricky/" class="color-inherit dim link">
             Interviews Are Tricky
             </a>
@@ -164,37 +188,18 @@
 
           </div>
         
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/2019/03/running-airflow-with-systemd/" class="color-inherit dim link">
-            Running Airflow With Systemd
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          The Linux system on the EC2 I&rsquo;m using is similar to CentOS and uses systemd for managing system services. If you want to run Airflow as a system service so that it can be started automatically and managed by the operation system, integrating it with systemd is a good option and is not difficult to do.
-The Airflow project documentation provides the basic information needed for running Airflow with systemd, which makes setup relatively easy, but I felt that the instructions could be a little clearer and I needed to tweak a few things to get it working for my installation.
-        </div>
-          <a href="/posts/2019/03/running-airflow-with-systemd/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
       <section class="w-100">
         <h1 class="f3">More</h1>
         
+        
+          <h2 class="f5 fw4 mb4 dib mr3">
+            <a href="/posts/2019/03/running-airflow-with-systemd/" class="link black dim">
+              Running Airflow With Systemd
+            </a>
+          </h2>
         
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="/posts/2019/03/airflow-on-amazonlinux/" class="link black dim">

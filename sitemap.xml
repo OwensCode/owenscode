@@ -3,6 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://owenscode.github.io/posts/</loc>
+    <lastmod>2019-04-19T17:16:15-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://owenscode.github.io/posts/2019/04/upgrading-airflow/</loc>
+    <lastmod>2019-04-19T17:16:15-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://owenscode.github.io/</loc>
+    <lastmod>2019-04-19T17:16:15-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://owenscode.github.io/posts/2019/04/interviews-are-tricky/</loc>
     <lastmod>2019-04-08T21:01:52-04:00</lastmod>
   </url>
@@ -33,19 +50,7 @@
   </url>
   
   <url>
-    <loc>https://owenscode.github.io/posts/</loc>
-    <lastmod>2019-04-08T21:01:52-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://owenscode.github.io/tags/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://owenscode.github.io/</loc>
-    <lastmod>2019-04-08T21:01:52-04:00</lastmod>
     <priority>0</priority>
   </url>
   

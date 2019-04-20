@@ -6,10 +6,19 @@
     <description>Recent content in Posts on What I Learned Today</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Apr 2019 21:01:52 -0400</lastBuildDate>
+    <lastBuildDate>Fri, 19 Apr 2019 17:16:15 -0400</lastBuildDate>
     
 	<atom:link href="https://owenscode.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Upgrading Airflow to 1.10.3</title>
+      <link>https://owenscode.github.io/posts/2019/04/upgrading-airflow/</link>
+      <pubDate>Fri, 19 Apr 2019 17:16:15 -0400</pubDate>
+      
+      <guid>https://owenscode.github.io/posts/2019/04/upgrading-airflow/</guid>
+      <description>Last month I described the challenges posed by installing Airflow on Amazon Linux, where I ended up installing from the 1.10 stable branch instead of the latest release. The Airflow team released 1.10.3 on April 10th and I decided to upgrade this week as I don&amp;rsquo;t like that we were working off a snapshot of a branch instead of an official released version. The upgrade went reasonably smoothly; the main issue I got stuck on for some time was of my own making, but there was a problem with the SlackWebHook that I had to work around.</description>
+    </item>
     
     <item>
       <title>Interviews Are Tricky</title>
