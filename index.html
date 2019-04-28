@@ -9,7 +9,7 @@
     <meta name="MobileOptimized" content="320">
 
     <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="generator" content="Hugo 0.55.0" />
+    <meta name="generator" content="Hugo 0.55.2" />
     
     
       <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://owenscode.github.io/" />
 
-<meta property="og:updated_time" content="2019-04-19T17:16:15-04:00"/>
+<meta property="og:updated_time" content="2019-04-27T21:22:21-04:00"/>
 
 <meta itemprop="name" content="What I Learned Today">
 <meta itemprop="description" content="">
@@ -124,6 +124,31 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/2019/04/slackwebhook-hook-problems/" class="color-inherit dim link">
+            Slack Webhook Hook Problems in Airflow 1.10.3
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          In my last post about upgrading to Airflow 1.10.3 I mentioned working around an issue in SlackWebhookHook. This is going to be a quick description of the problem and the easy workaround.
+In short, the SlackWebhookHook constructor requires the http_conn_id parameter, but was not passing it correctly to the parent class, HttpHook. HttpHook in turn uses a default connection id if one is not provided in the constructor. The end result was an error due to there being no connection with the defaulted connection id.
+        </div>
+          <a href="/posts/2019/04/slackwebhook-hook-problems/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="relative w-100 mb4">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
+    <div class="flex flex-column flex-row-ns">
+      
+      <div class="blah w-100">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
           <a href="/posts/2019/04/upgrading-airflow/" class="color-inherit dim link">
             Upgrading Airflow to 1.10.3
             </a>
@@ -164,36 +189,18 @@
 
           </div>
         
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/2019/03/oysters/" class="color-inherit dim link">
-            Oysters
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          I chaperoned a school field trip to an aquarium this week, and one of the things we learned is that oysters filter the water they live in. Full grown oysters can actually filter up to 50 gallons per day. That is pretty amazing for such a small creature. In addition to the nutrients they consume in the form of microscopic species, they also remove algae, dirt and some types of pollution from the water.
-        </div>
-          <a href="/posts/2019/03/oysters/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
       <section class="w-100">
         <h1 class="f3">More</h1>
         
+        
+          <h2 class="f5 fw4 mb4 dib mr3">
+            <a href="/posts/2019/03/oysters/" class="link black dim">
+              Oysters
+            </a>
+          </h2>
         
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="/posts/2019/03/running-airflow-with-systemd/" class="link black dim">

@@ -6,10 +6,20 @@
     <description>Recent content in Posts on What I Learned Today</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Apr 2019 17:16:15 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 27 Apr 2019 21:22:21 -0400</lastBuildDate>
     
 	<atom:link href="https://owenscode.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Slack Webhook Hook Problems in Airflow 1.10.3</title>
+      <link>https://owenscode.github.io/posts/2019/04/slackwebhook-hook-problems/</link>
+      <pubDate>Sat, 27 Apr 2019 21:22:21 -0400</pubDate>
+      
+      <guid>https://owenscode.github.io/posts/2019/04/slackwebhook-hook-problems/</guid>
+      <description>In my last post about upgrading to Airflow 1.10.3 I mentioned working around an issue in SlackWebhookHook. This is going to be a quick description of the problem and the easy workaround.
+In short, the SlackWebhookHook constructor requires the http_conn_id parameter, but was not passing it correctly to the parent class, HttpHook. HttpHook in turn uses a default connection id if one is not provided in the constructor. The end result was an error due to there being no connection with the defaulted connection id.</description>
+    </item>
     
     <item>
       <title>Upgrading Airflow to 1.10.3</title>

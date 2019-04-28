@@ -4,19 +4,24 @@
   
   <url>
     <loc>https://owenscode.github.io/posts/</loc>
-    <lastmod>2019-04-19T17:16:15-04:00</lastmod>
+    <lastmod>2019-04-27T21:22:21-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://owenscode.github.io/posts/2019/04/slackwebhook-hook-problems/</loc>
+    <lastmod>2019-04-27T21:22:21-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://owenscode.github.io/</loc>
+    <lastmod>2019-04-27T21:22:21-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://owenscode.github.io/posts/2019/04/upgrading-airflow/</loc>
     <lastmod>2019-04-19T17:16:15-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://owenscode.github.io/</loc>
-    <lastmod>2019-04-19T17:16:15-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
