@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>What I Learned Today  | Call-by-name vs call-by-value in Scala</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.2" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Call-by-name vs call-by-value in Scala" />
+<meta property="og:description" content="One of the things I like about Scala is that I keep learning new things about the language, despite having worked with it for a while, and it&rsquo;s often something useful and interesting, and sometimes just totally blows my mind.
+I recently learned about call by name vs call by value, and I think this one falls into the interesting category for me, more than the useful. I&rsquo;m not sure if I would&rsquo;ve used it yet if I had known about it (except for some Apache Spark code I&rsquo;m thinking of), but I&rsquo;m pretty sure there&rsquo;s some Scala library code that would&rsquo;ve made more sense to me if I&rsquo;d recognized the syntax." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://owenscode.github.io/posts/2019/05/scala-call-by-name/" />
+<meta property="article:published_time" content="2019-05-05T13:47:57-04:00"/>
+<meta property="article:modified_time" content="2019-05-05T13:47:57-04:00"/>
+
+<meta itemprop="name" content="Call-by-name vs call-by-value in Scala">
+<meta itemprop="description" content="One of the things I like about Scala is that I keep learning new things about the language, despite having worked with it for a while, and it&rsquo;s often something useful and interesting, and sometimes just totally blows my mind.
+I recently learned about call by name vs call by value, and I think this one falls into the interesting category for me, more than the useful. I&rsquo;m not sure if I would&rsquo;ve used it yet if I had known about it (except for some Apache Spark code I&rsquo;m thinking of), but I&rsquo;m pretty sure there&rsquo;s some Scala library code that would&rsquo;ve made more sense to me if I&rsquo;d recognized the syntax.">
+
+
+<meta itemprop="datePublished" content="2019-05-05T13:47:57-04:00" />
+<meta itemprop="dateModified" content="2019-05-05T13:47:57-04:00" />
+<meta itemprop="wordCount" content="420">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Call-by-name vs call-by-value in Scala"/>
+<meta name="twitter:description" content="One of the things I like about Scala is that I keep learning new things about the language, despite having worked with it for a while, and it&rsquo;s often something useful and interesting, and sometimes just totally blows my mind.
+I recently learned about call by name vs call by value, and I think this one falls into the interesting category for me, more than the useful. I&rsquo;m not sure if I would&rsquo;ve used it yet if I had known about it (except for some Apache Spark code I&rsquo;m thinking of), but I&rsquo;m pretty sure there&rsquo;s some Scala library code that would&rsquo;ve made more sense to me if I&rsquo;d recognized the syntax."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://owenscode.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      What I Learned Today
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Call-by-name vs call-by-value in Scala</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-05-05T13:47:57-04:00">May 5, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>One of the things I like about Scala is that I keep learning new things about
+the language, despite having worked with it for a while, and it&rsquo;s often
+something useful and interesting, and sometimes just totally blows my mind.</p>
+
+<p>I recently learned about call by name vs call by value, and I think this one
+falls into the <em>interesting</em> category for me, more than the useful. I&rsquo;m not
+sure if I would&rsquo;ve used it yet if I had known about it (except for some Apache
+Spark code I&rsquo;m thinking of), but I&rsquo;m pretty sure there&rsquo;s some Scala library
+code that would&rsquo;ve made more sense to me if I&rsquo;d recognized the syntax.</p>
+
+<p>The default in Scala (and most languages) is call by value, in which
+expressions are evaluated as soon as they are used. One of the easiest ways to
+show how this works is by using a function that does not terminate. We&rsquo;ll start
+off by defining a function <code>loop</code>, which just calls itself and will result in
+an infinite loop anytime it&rsquo;s called.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">def</span> loop<span style="color:#f92672">()</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">=</span> loop<span style="color:#f92672">()</span>
+loop<span style="color:#66d9ef">:</span> <span style="color:#f92672">()</span><span style="color:#66d9ef">Int</span></code></pre></div>
+
+<p>Then we&rsquo;ll define an unrelated function <code>calc</code> that takes 2 integers and
+returns the first one.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">def</span> calc<span style="color:#f92672">(</span>x<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> y<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">=</span> x
+calc<span style="color:#66d9ef">:</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">x:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">y:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#a6e22e">Int</span></code></pre></div>
+
+<p>Now print out the result of calling calc on an integer and the result of the
+loop function. As you might expect, we just end up in an infinite loop when
+Scala attempts to resolve the value of <code>loop()</code>. No big surprises here.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> print<span style="color:#f92672">(</span>calc<span style="color:#f92672">(</span><span style="color:#ae81ff">10</span><span style="color:#f92672">,</span> loop<span style="color:#f92672">()))</span>
+<span style="color:#f92672">^</span>C
+<span style="color:#a6e22e">Interrupted</span><span style="color:#f92672">!</span></code></pre></div>
+
+<p>Now we get to the magic. Change the definition of <code>calc</code> so that the second
+parameter is defined as <code>y: =&gt; Int</code> with a rocket between the colon and the
+type. This is how you tell Scala that you want to use call by name.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">def</span> calc<span style="color:#f92672">(</span>x<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> y<span style="color:#66d9ef">:</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">=</span> x
+calc<span style="color:#66d9ef">:</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">x:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">y:</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Int</span><span style="color:#f92672">)</span><span style="color:#a6e22e">Int</span></code></pre></div>
+
+<p>Now when you print out the result of calling calc with an integer and the
+result of calling the loop function, you actually get a result, which is the
+value of the integer.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> print<span style="color:#f92672">(</span>calc<span style="color:#f92672">(</span><span style="color:#ae81ff">10</span><span style="color:#f92672">,</span> loop<span style="color:#f92672">()))</span>
+<span style="color:#ae81ff">10</span></code></pre></div>
+
+<p>How this works is Scala delays resolving expressions until the result is really
+needed. When it comes to execute <code>calc(10, loop())</code> it doesn&rsquo;t know if it needs
+the value of <code>loop()</code> yet so it doesn&rsquo;t evaluate it. Inside calc, it doesn&rsquo;t
+need to evaluate <code>loop()</code> because calc just returns the value of the first
+expression, which is the integer you provided.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://owenscode.github.io/" >
+    &copy; 2019 What I Learned Today
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

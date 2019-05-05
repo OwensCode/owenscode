@@ -6,10 +6,20 @@
     <description>Recent content in Posts on What I Learned Today</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 27 Apr 2019 21:22:21 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 05 May 2019 13:47:57 -0400</lastBuildDate>
     
 	<atom:link href="https://owenscode.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Call-by-name vs call-by-value in Scala</title>
+      <link>https://owenscode.github.io/posts/2019/05/scala-call-by-name/</link>
+      <pubDate>Sun, 05 May 2019 13:47:57 -0400</pubDate>
+      
+      <guid>https://owenscode.github.io/posts/2019/05/scala-call-by-name/</guid>
+      <description>One of the things I like about Scala is that I keep learning new things about the language, despite having worked with it for a while, and it&amp;rsquo;s often something useful and interesting, and sometimes just totally blows my mind.
+I recently learned about call by name vs call by value, and I think this one falls into the interesting category for me, more than the useful. I&amp;rsquo;m not sure if I would&amp;rsquo;ve used it yet if I had known about it (except for some Apache Spark code I&amp;rsquo;m thinking of), but I&amp;rsquo;m pretty sure there&amp;rsquo;s some Scala library code that would&amp;rsquo;ve made more sense to me if I&amp;rsquo;d recognized the syntax.</description>
+    </item>
     
     <item>
       <title>Slack Webhook Hook Problems in Airflow 1.10.3</title>

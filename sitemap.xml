@@ -3,20 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://owenscode.github.io/posts/2019/05/scala-call-by-name/</loc>
+    <lastmod>2019-05-05T13:47:57-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://owenscode.github.io/posts/</loc>
-    <lastmod>2019-04-27T21:22:21-04:00</lastmod>
+    <lastmod>2019-05-05T13:47:57-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://owenscode.github.io/</loc>
+    <lastmod>2019-05-05T13:47:57-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://owenscode.github.io/posts/2019/04/slackwebhook-hook-problems/</loc>
     <lastmod>2019-04-27T21:22:21-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://owenscode.github.io/</loc>
-    <lastmod>2019-04-27T21:22:21-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
