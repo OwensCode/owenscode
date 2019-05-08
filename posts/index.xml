@@ -6,10 +6,21 @@
     <description>Recent content in Posts on What I Learned Today</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 May 2019 13:47:57 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 08 May 2019 10:02:25 -0400</lastBuildDate>
     
 	<atom:link href="https://owenscode.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Scala call-by-name Extra</title>
+      <link>https://owenscode.github.io/posts/2019/05/scala-call-by-name-extra/</link>
+      <pubDate>Wed, 08 May 2019 10:02:25 -0400</pubDate>
+      
+      <guid>https://owenscode.github.io/posts/2019/05/scala-call-by-name-extra/</guid>
+      <description>A short addendum to my last post about the call by name feature in Scala.
+Something interesting about the loop function that I used is that the Java equivalent of that function would die with a StackOverflowError, but the Scala version doesn&amp;rsquo;t because it&amp;rsquo;s tail recursive and Scala is able to reuse the stack frame in each recursive call, resulting in an infinite loop instead of an error.
+We can try it out by changing the loop function to not be tail recursive by incrementing the expression result by 1.</description>
+    </item>
     
     <item>
       <title>Call-by-name vs call-by-value in Scala</title>

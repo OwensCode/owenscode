@@ -9,7 +9,7 @@
     <meta name="MobileOptimized" content="320">
 
     <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="generator" content="Hugo 0.55.2" />
+    <meta name="generator" content="Hugo 0.55.5" />
     
     
       <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
@@ -125,38 +125,28 @@ expressions are evaluated as soon as they are used. One of the easiest ways to
 show how this works is by using a function that does not terminate. We&rsquo;ll start
 off by defining a function <code>loop</code>, which just calls itself and will result in
 an infinite loop anytime it&rsquo;s called.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">def</span> loop<span style="color:#f92672">()</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">=</span> loop<span style="color:#f92672">()</span>
 loop<span style="color:#66d9ef">:</span> <span style="color:#f92672">()</span><span style="color:#66d9ef">Int</span></code></pre></div>
-
 <p>Then we&rsquo;ll define an unrelated function <code>calc</code> that takes 2 integers and
 returns the first one.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">def</span> calc<span style="color:#f92672">(</span>x<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> y<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">=</span> x
 calc<span style="color:#66d9ef">:</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">x:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">y:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#a6e22e">Int</span></code></pre></div>
-
 <p>Now print out the result of calling calc on an integer and the result of the
 loop function. As you might expect, we just end up in an infinite loop when
 Scala attempts to resolve the value of <code>loop()</code>. No big surprises here.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> print<span style="color:#f92672">(</span>calc<span style="color:#f92672">(</span><span style="color:#ae81ff">10</span><span style="color:#f92672">,</span> loop<span style="color:#f92672">()))</span>
 <span style="color:#f92672">^</span>C
 <span style="color:#a6e22e">Interrupted</span><span style="color:#f92672">!</span></code></pre></div>
-
 <p>Now we get to the magic. Change the definition of <code>calc</code> so that the second
 parameter is defined as <code>y: =&gt; Int</code> with a rocket between the colon and the
 type. This is how you tell Scala that you want to use call by name.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">def</span> calc<span style="color:#f92672">(</span>x<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> y<span style="color:#66d9ef">:</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">=</span> x
 calc<span style="color:#66d9ef">:</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">x:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">y:</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Int</span><span style="color:#f92672">)</span><span style="color:#a6e22e">Int</span></code></pre></div>
-
 <p>Now when you print out the result of calling calc with an integer and the
 result of calling the loop function, you actually get a result, which is the
 value of the integer.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">scala<span style="color:#f92672">&gt;</span> print<span style="color:#f92672">(</span>calc<span style="color:#f92672">(</span><span style="color:#ae81ff">10</span><span style="color:#f92672">,</span> loop<span style="color:#f92672">()))</span>
 <span style="color:#ae81ff">10</span></code></pre></div>
-
 <p>How this works is Scala delays resolving expressions until the result is really
 needed. When it comes to execute <code>calc(10, loop())</code> it doesn&rsquo;t know if it needs
 the value of <code>loop()</code> yet so it doesn&rsquo;t evaluate it. Inside calc, it doesn&rsquo;t
